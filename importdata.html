@@ -2,16 +2,31 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Quan trọng cho mobile -->
 <title>Datasys - Website Master</title>
 <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    table { border-collapse: collapse; width: 100%; margin-top: 10px; }
+    body { font-family: Arial, sans-serif; margin: 10px; }
+    h2 { text-align: center; }
+    form { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; }
+    input, select, button {
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    button { cursor: pointer; }
+    .delete { background: #ff1100; color: white; border: none; }
+    .edit { background: #007bff; color: white; border: none; }
+    .table-container { overflow-x: auto; margin-top: 10px; }
+    table { border-collapse: collapse; width: 100%; min-width: 600px; }
     th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
     th { background: #f4f4f4; }
-    button { padding: 4px 8px; cursor: pointer; }
-    .edit { background: #4400ff; color: white; border: none; }
-    .delete { background: #ff1100; color: white; border: none; }
-    input, select { padding: 5px; margin: 3px; }
+    td[contenteditable="true"] { background: #fffbea; outline: none; }
+    @media (max-width: 600px) {
+        input, select, button { flex: 1 1 100%; }
+        table { font-size: 13px; }
+        button { padding: 10px; font-size: 13px; }
+    }
 </style>
 </head>
 <body>
@@ -33,9 +48,12 @@
     </select>
     <button type="submit">Thêm</button>
 </form>
-<div style="color:red; border:1px solid red; padding:5px; display:inline-block;">
+
+<div style="color:red; border:1px solid red; padding:5px; display:inline-block; margin-top:10px;">
   Tính năng đang được bảo trì
 </div>
+
+<div class="table-container">
 <table>
     <thead>
         <tr>
@@ -49,11 +67,11 @@
     </thead>
     <tbody id="dataTable"></tbody>
 </table>
+</div>
 
 <script>
 let data = JSON.parse(localStorage.getItem("tableData")) || [];
 
-// Sinh ID 8 số ngẫu nhiên + không trùng
 function generateID() {
     let id;
     do {
@@ -69,27 +87,52 @@ function saveData() {
 function renderTable() {
     const tbody = document.getElementById("dataTable");
     tbody.innerHTML = "";
-    data.forEach((row, index) => {
+    data.forEach((row, rowIndex) => {
         const tr = document.createElement("tr");
 
-        row.forEach((cell) => {
+        let tdID = document.createElement("td");
+        tdID.textContent = row[0];
+        tr.appendChild(tdID);
+
+        for (let i = 1; i <= 3; i++) {
             let td = document.createElement("td");
-            td.textContent = cell;
+            td.textContent = row[i];
+            td.contentEditable = false;
             tr.appendChild(td);
+        }
+
+        let tdStatus = document.createElement("td");
+        let select = document.createElement("select");
+        [
+            " - trống - ",
+            "Hoạt động bình thường",
+            "Hoạt động hạn chế",
+            "Ngừng hoạt động",
+            "Đang xử lý",
+            "Đang bảo trì",
+            "Đang chờ duyệt",
+            "Từ chối duyệt"
+        ].forEach(optionText => {
+            let option = document.createElement("option");
+            option.value = optionText;
+            option.textContent = optionText;
+            if (row[4] === optionText) option.selected = true;
+            select.appendChild(option);
         });
+        select.disabled = true;
+        tdStatus.appendChild(select);
+        tr.appendChild(tdStatus);
 
-        // Hành động
         let tdActions = document.createElement("td");
-
         let btnEdit = document.createElement("button");
         btnEdit.textContent = "Sửa";
         btnEdit.className = "edit";
-        btnEdit.onclick = () => editRow(index);
+        btnEdit.onclick = () => toggleEditRow(tr, rowIndex, btnEdit);
 
         let btnDelete = document.createElement("button");
         btnDelete.textContent = "Xóa";
         btnDelete.className = "delete";
-        btnDelete.onclick = () => deleteRow(index);
+        btnDelete.onclick = () => deleteRow(rowIndex);
 
         tdActions.appendChild(btnEdit);
         tdActions.appendChild(btnDelete);
@@ -97,6 +140,28 @@ function renderTable() {
 
         tbody.appendChild(tr);
     });
+}
+
+function toggleEditRow(tr, rowIndex, btn) {
+    let tds = tr.querySelectorAll("td");
+    let select = tds[4].querySelector("select");
+
+    if (btn.textContent === "Sửa") {
+        for (let i = 1; i <= 3; i++) {
+            tds[i].contentEditable = true;
+        }
+        select.disabled = false;
+        btn.textContent = "Lưu";
+    } else {
+        for (let i = 1; i <= 3; i++) {
+            data[rowIndex][i] = tds[i].textContent.trim();
+            tds[i].contentEditable = false;
+        }
+        data[rowIndex][4] = select.value;
+        select.disabled = true;
+        saveData();
+        btn.textContent = "Sửa";
+    }
 }
 
 function addRow(e) {
@@ -125,29 +190,18 @@ function deleteRow(index) {
     }
 }
 
-function editRow(index) {
-    const newCol1 = prompt("Nhập giá trị mới cho Cột 2:", data[index][1]);
-    const newCol2 = prompt("Nhập giá trị mới cho Cột 3:", data[index][2]);
-    const newCol3 = prompt("Nhập giá trị mới cho Cột 4:", data[index][3]);
-    const newStatus = prompt("Nhập trạng thái (Hoạt động/Không hoạt động):", data[index][4]);
-
-    if (newCol2 && newCol3 && newCol4 && newStatus) {
-        data[index][1] = newCol1;
-        data[index][2] = newCol2;
-        data[index][3] = newCol3;
-        data[index][4] = newStatus;
-        saveData();
-        renderTable();
-    }
-}
-
 document.getElementById("dataForm").addEventListener("submit", addRow);
 renderTable();
 </script>
-<div class="copy_layout">
+
+<div class="copy_layout" style="text-align:center;margin-top:10px;">
     <p>
-        &copy; <span id="year"></span>Design by <a href="https://www.nguyenthuanit.id.vn/" target="_blank">Nguyễn Minh Thuận IT</a>
+        &copy; <span id="year"></span> Design by <a href="#" target="_blank">Nguyễn Minh Thuận IT</a>
     </p>
 </div>
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
 </body>
 </html>
