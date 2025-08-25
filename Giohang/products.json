@@ -1,0 +1,7 @@
+{
+  "001": { "name": "Sữa tươi", "price": 15000 },
+  "002": { "name": "Bánh mì", "price": 10000 },
+  "003": { "name": "Trà sữa", "price": 30000 },
+  "004": { "name": "Cà phê", "price": 20000 },
+  "005": { "name": "Nước ngọt", "price": 12000 }
+}
