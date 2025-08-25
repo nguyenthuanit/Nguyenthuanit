@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông Tin ứng Viên</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="avatar">
+            <img src="img/avatar.jpg" alt="">
+        </div>
+        <div class="name">
+            <h1>Nguyễn Minh Thuận</h1>
+            <div class="specialize">Ứng Viên</div>
+            <ul class="contact">
+                <li>
+                    <span>P</span> +84817181220 (Zalo)
+                </li>
+                <li>
+                    <span>E</span> Nguyenminhthuan101096@gmail.com
+                </li>
+                <li>
+                    <span>W</span> Nguyenthuanit.id.vn
+                </li>
+                <li>
+                    <span>A</span> xã Hòa Bình, tỉnh Cà Mau (Bạc Liêu Cũ)
+                </li>
+            </ul>
+        </div>
+        <div class="info">
+            <ul>
+                <b>Nguyễn Minh Thuận</b>
+                <li>Ngày sinh: 01/01/2000</li>
+                <li>Chiều cao-cân nặng: 1m79 63kg</li>
+                <li>xã Hòa Bình, tỉnh Cà Mau (Bạc Liêu Cũ)</li>
+            </ul>
+        </div>
+        <div class="intro">
+            <h2>Giới Thiệu Bản Thân</h2>
+            Tôi là người linh hoạt, có khả năng tiếp thu nhanh trong nhiều vị trí khác nhau. Luôn chủ động học hỏi và
+            cải thiện kỹ năng, Với kinh nghiệm Leader và làm việc nhóm hiệu quả trong mọi vị trí công việc đảm nhận.
+        </div>
+        <div class="experience">
+            <h2>Học Vấn</h2>
+
+            <div class="item">
+                <h4></h4>
+                <div class="time">
+                    <li>TH Nguyễn Du (2006 – 2011)</li>
+                    <li>THCS Long Thạnh (2011 – 2015)</li>
+                    <li>THPT Lê Thị Riêng (2015 – 2018)</li>
+                </div>
+            </div>
+
+            <H2>Kỹ Năng</H2>
+
+            <div class="item">
+                <h4>
+                    Kỹ năng mềm
+                </h4>
+                <div class="des">
+                    <ul>
+                        <li><strong>Kỹ Thuật Phần cứng</strong> Cài đặt phần mềm, sửa chữa phần cứng, khắc phục sự cố.
+                        </li>
+                        <li><strong>Giao tiếp:</strong> Khả năng giao tiếp tốt với khách hàng và đồng nghiệp, tạo dựng
+                            mối quan hệ tích cực.</li>
+                        <li><strong>Giải quyết vấn đề:</strong> Khả năng phân tích tình huống và đưa ra giải pháp nhanh
+                            chóng, hiệu quả.</li>
+                        <li><strong>Làm việc nhóm:</strong> Làm việc hiệu quả trong môi trường nhóm đa dạng, chia sẻ và
+                            hợp tác để hoàn thành công việc.</li>
+                        <li><strong>Quản lý thời gian:</strong> Quản lý nhiều công việc và dự án cùng lúc, đáp ứng các
+                            hạn chót nghiêm ngặt.</li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+
+                <h2 class="skills">
+                    Liên hệ & Mạng xã hội
+                </h2>
+
+                <div class="social-slider">
+                    <div class="social-item">
+                        <a href="https://www.facebook.com/Nguyenminhthuan1095" target="_blank">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                    </div>
+                    <div class="social-item">
+                        <a href="https://instagram.com/nguyenminhthuan1010" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                    <div class="social-item">
+                        <a href="Nguyenminhthuan101096@gmail.com">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                    <div class="social-item">
+                        <a href="https://t.me/Nguyenthuandev" target="_blank">
+                            <i class="fab fa-telegram-plane"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <style>
+                    .social-slider {
+                        display: flex;
+                        gap: 20px;
+                        justify-content: center;
+                        align-items: center;
+                    }
+
+                    .social-item a {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        width: 60px;
+                        height: 60px;
+                        border-radius: 50%;
+                        background-color: #eee;
+                        color: #333;
+                        font-size: 28px;
+                        transition: all 0.3s;
+                    }
+
+                    .social-item a:hover {
+                        transform: scale(1.1);
+                        background-color: #ddd;
+                        color: #000;
+                        cursor: pointer;
+                    }
+                </style>
+
+                <script>
+                    $(document).ready(function () {
+                        $('.social-slider').slick({
+                            slidesToShow: 4,
+                            slidesToScroll: 1,
+                            autoplay: true,
+                            autoplaySpeed: 2000,
+                            dots: false,
+                            arrows: true,
+                            infinite: true,
+                            centerMode: true,
+                            variableWidth: true
+                        });
+                    });
+                </script>
+            </div>
+        </div>
+        <div class="project">
+            <h2>Kinh Nghiệm Làm Việc</h2>
+            <div class="item">
+                <h4>
+                    Công ty TM-DV Tin học TC Computer
+                </h4>
+                <div class="time">
+                    <span>
+                        <h5>
+                            Vị trí: Nhân viên Kỹ thuật & Đào tạo <br>
+                            (2021 - 2024)
+                        </h5>
+                    </span>
+                </div>
+                <div class="des">
+                    <ul>
+                        <li>Có kinh nghiệm trong việc lắp đặt, bảo trì và khắc phục sự cố phần cứng (laptop, PC, máy
+                            in,hệ
+                            thống camera giám sát...), </li>
+                        <li>Tối ưu hệ thống mạng nội bộ, đảm bảo hoạt động ổn định cho công ty đối tác nơi được cử
+                            công
+                            tác.</li>
+                        <li>Đào tạo và hướng dẫn intern, hỗ trợ kỹ thuật cho nhân viên trong quá trình làm việc.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="item">
+                <h4>
+                    Công ty TNHH Giày APACHE Việt Nam
+                </h4>
+                <div class="time">
+                    <h5>
+                        Vị trí: Công nhân Khai Thác - Phòng Mẫu <br>
+                        (2024 - 2025)
+                    </h5>
+                </div>
+                <div class="des">
+                    <ul>
+                        <li>Vận hành và điều chỉnh máy cắt tự động để cắt các chi tiết giày theo đúng thông số kỹ
+                            thuật
+                            từ
+                            bộ phận thiết kế.
+                            máy cắt để đảm bảo hoạt động ổn định và chính xác.
+                        </li>
+                        <li>Đọc hiểu rập mẫu, file để thực hiện thao tác cắt đúng theo yêu cầu kỹ thuật.</li>
+                        <li>Hỗ trợ các công đoạn khác trong phòng mẫu khi cần.</li>
+                        <li>Ghi nhận và báo cáo các lỗi phát sinh trong quá trình cắt mẫu để kịp thời xử lý.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="item">
+                <h4>Công ty TNHH Dịch vụ GO! BigC </h4>
+                <div class="time">
+                    <h5>
+                        Vị trí: CSKH - Giám sát
+                        (07/2024 - 04/2025)
+                    </h5>
+                </div>
+                <div class="location">
+                    Chức năng :
+                </div>
+                <div class="des">
+                    <ul>
+                        <li>Quản lý và giám sát hoạt động tại quầy thu ngân, đảm bảo quy trình thanh toán nhanh
+                            chóng,
+                            chính xác và tránh ùn tắc khách hàng.</li>
+                        <li>Hỗ trợ kiểm soát, ngăn ngừa thất thoát hàng hóa tại khu vực cổng/thu ngân.</li>
+                        <li>Xử lý sai sót về giá, đảm bảo hóa đơn chính xác; thành thạo nghiệp vụ thanh toán bằng
+                            thẻ
+                            tín dụng và các phương thức khác.</li>
+                        <li>Giám sát việc bảo quản hàng hóa đặc thù (kem, thịt tươi...) và duy trì vệ sinh, trật tự
+                            khu
+                            vực quầy.</li>
+                        <li>Hỗ trợ trưng bày hàng hóa tại đầu quầy, kiểm soát hàng bán số lượng lớn và phối hợp với
+                            các
+                            bộ phận liên quan.</li>
+                        <li>Tiếp nhận, trả lời và giải quyết khiếu nại khách hàng, nâng cao trải nghiệm dịch vụ.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <h6>
+                Xin cảm ơn Anh/Chị HR đã xem CV. <br>
+                Rất mong có cơ hội được làm việc gắn bó lâu dài cùng Công ty. 
+            </h6>
+        </footer>
+    </div>
+    <footer>
+        <p></p>
+    </footer>
+</body>
+
+</html>

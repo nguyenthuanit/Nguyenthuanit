@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Quan trọng cho mobile -->
+<title>Datasys - Website Master</title>
+<style>
+    body { font-family: Arial, sans-serif; margin: 10px; }
+    h2 { text-align: center; }
+    form { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; }
+    input, select, button {
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    button { cursor: pointer; }
+    .delete { background: #ff1100; color: white; border: none; }
+    .edit { background: #007bff; color: white; border: none; }
+    .table-container { overflow-x: auto; margin-top: 10px; }
+    table { border-collapse: collapse; width: 100%; min-width: 600px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+    th { background: #f4f4f4; }
+    td[contenteditable="true"] { background: #fffbea; outline: none; }
+    @media (max-width: 600px) {
+        input, select, button { flex: 1 1 100%; }
+        table { font-size: 13px; }
+        button { padding: 10px; font-size: 13px; }
+    }
+</style>
+</head>
+<body>
+
+<h2>Nhập & Quản lý dữ liệu</h2>
+<form id="dataForm">
+    <input type="text" id="col1" placeholder="A1" required>
+    <input type="text" id="col2" placeholder="B1" required>
+    <input type="text" id="col3" placeholder="C1" required>
+    <select id="status">
+        <option value=" - trống - "> - trống - </option>
+        <option value="Hoạt động bình thường">Hoạt động bình thường</option>
+        <option value="Hoạt động hạn chế">Hoạt động hạn chế</option>
+        <option value="Ngừng hoạt động">Ngừng hoạt động</option>
+        <option value="Đang xử lý">Đang xử lý</option>
+        <option value="Đang bảo trì">Đang bảo trì</option>
+        <option value="Đang chờ duyệt">Đang chờ duyệt</option>
+        <option value="Từ chối duyệt">Từ chối duyệt</option>
+    </select>
+    <button type="submit">Thêm</button>
+</form>
+
+<div style="color:red; border:1px solid red; padding:5px; display:inline-block; margin-top:10px;">
+  Tính năng đang được bảo trì
+</div>
+
+<div class="table-container">
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Cột A1</th>
+            <th>Cột B1</th>
+            <th>Cột C1</th>
+            <th>Trạng thái</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody id="dataTable"></tbody>
+</table>
+</div>
+
+<script>
+let data = JSON.parse(localStorage.getItem("tableData")) || [];
+
+function generateID() {
+    let id;
+    do {
+        id = Math.floor(10000000 + Math.random() * 90000000).toString();
+    } while (data.some(row => row[0] === id));
+    return id;
+}
+
+function saveData() {
+    localStorage.setItem("tableData", JSON.stringify(data));
+}
+
+function renderTable() {
+    const tbody = document.getElementById("dataTable");
+    tbody.innerHTML = "";
+    data.forEach((row, rowIndex) => {
+        const tr = document.createElement("tr");
+
+        let tdID = document.createElement("td");
+        tdID.textContent = row[0];
+        tr.appendChild(tdID);
+
+        for (let i = 1; i <= 3; i++) {
+            let td = document.createElement("td");
+            td.textContent = row[i];
+            td.contentEditable = false;
+            tr.appendChild(td);
+        }
+
+        let tdStatus = document.createElement("td");
+        let select = document.createElement("select");
+        [
+            " - trống - ",
+            "Hoạt động bình thường",
+            "Hoạt động hạn chế",
+            "Ngừng hoạt động",
+            "Đang xử lý",
+            "Đang bảo trì",
+            "Đang chờ duyệt",
+            "Từ chối duyệt"
+        ].forEach(optionText => {
+            let option = document.createElement("option");
+            option.value = optionText;
+            option.textContent = optionText;
+            if (row[4] === optionText) option.selected = true;
+            select.appendChild(option);
+        });
+        select.disabled = true;
+        tdStatus.appendChild(select);
+        tr.appendChild(tdStatus);
+
+        let tdActions = document.createElement("td");
+        let btnEdit = document.createElement("button");
+        btnEdit.textContent = "Sửa";
+        btnEdit.className = "edit";
+        btnEdit.onclick = () => toggleEditRow(tr, rowIndex, btnEdit);
+
+        let btnDelete = document.createElement("button");
+        btnDelete.textContent = "Xóa";
+        btnDelete.className = "delete";
+        btnDelete.onclick = () => deleteRow(rowIndex);
+
+        tdActions.appendChild(btnEdit);
+        tdActions.appendChild(btnDelete);
+        tr.appendChild(tdActions);
+
+        tbody.appendChild(tr);
+    });
+}
+
+function toggleEditRow(tr, rowIndex, btn) {
+    let tds = tr.querySelectorAll("td");
+    let select = tds[4].querySelector("select");
+
+    if (btn.textContent === "Sửa") {
+        for (let i = 1; i <= 3; i++) {
+            tds[i].contentEditable = true;
+        }
+        select.disabled = false;
+        btn.textContent = "Lưu";
+    } else {
+        for (let i = 1; i <= 3; i++) {
+            data[rowIndex][i] = tds[i].textContent.trim();
+            tds[i].contentEditable = false;
+        }
+        data[rowIndex][4] = select.value;
+        select.disabled = true;
+        saveData();
+        btn.textContent = "Sửa";
+    }
+}
+
+function addRow(e) {
+    e.preventDefault();
+    if (data.length >= 10) {
+        alert("Chỉ tối đa 10 hàng!");
+        return;
+    }
+    const id = generateID();
+    const col2 = document.getElementById("col1").value;
+    const col3 = document.getElementById("col2").value;
+    const col4 = document.getElementById("col3").value;
+    const status = document.getElementById("status").value;
+
+    data.push([id, col2, col3, col4, status]);
+    saveData();
+    renderTable();
+    e.target.reset();
+}
+
+function deleteRow(index) {
+    if (confirm("Xóa hàng này?")) {
+        data.splice(index, 1);
+        saveData();
+        renderTable();
+    }
+}
+
+document.getElementById("dataForm").addEventListener("submit", addRow);
+renderTable();
+</script>
+
+<div class="copy_layout" style="text-align:center;margin-top:10px;">
+    <p>
+        &copy; <span id="year"></span> Design by <a href="#" target="_blank">Nguyễn Minh Thuận IT</a>
+    </p>
+</div>
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
