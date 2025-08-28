@@ -1,0 +1,17 @@
+[
+  { 
+    "email": "admin@example.com", 
+    "password": "123456",
+    "urls": ["grids.html", "dashboard.html"]
+  },
+  { 
+    "email": "anh@gamil.com", 
+    "password": "pass123",
+    "urls": ["profile.html"]
+  },
+  { 
+    "email": "test@gmail.com", 
+    "password": "test",
+    "urls": ["home.html", "settings.html"]
+  }
+]

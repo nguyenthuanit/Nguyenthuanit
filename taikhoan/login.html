@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Login | Admin Panel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+
+<style>
+body { 
+    background: #f2f2f2; 
+    font-family: Arial, sans-serif; 
+}
+h2.form-heading { 
+    text-align: center; 
+    margin: 20px 0; 
+}
+.app-cam { 
+    width: 320px; 
+    margin: auto; 
+    background: #fff; 
+    padding: 20px; 
+    border-radius: 10px; 
+    box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+}
+.app-cam input[type="text"], 
+.app-cam input[type="password"] {
+    width: 100%; 
+    padding: 10px; 
+    margin: 8px 0; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    box-sizing: border-box;
+    font-size: 14px;
+    outline: none;
+}
+.app-cam input[type="text"]:focus, 
+.app-cam input[type="password"]:focus {
+    border-color: #414dff;
+    box-shadow: 0 0 5px rgb(0, 22, 219);
+}
+.submit input {
+    width: 100%; 
+    padding: 10px; 
+    background: #3e4bff; 
+    color: white; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer;
+    font-size: 16px;
+}
+.submit input:hover { 
+    background: #0e00d1; 
+}
+.login-logo { 
+    text-align: center; 
+    margin: 20px 0; 
+}
+.copy_layout { 
+    text-align: center; 
+    margin-top: 20px; 
+    color: #666; 
+    font-size: 14px; 
+}
+</style>
+
+</head>
+<body id="login">
+
+<div class="login-logo">
+    <a href="index.html" style="text-decoration: none; color: inherit;">
+        <span style="font-size: 24px; font-weight: bold; color: #877aff;">
+            NT.<span style="color: #877aff;">tech</span> – IT
+        </span>
+    </a>
+</div>
+
+<h2 class="form-heading">Đăng Nhập</h2>
+
+<div class="app-cam">
+    <form onsubmit="return login(event)">
+        <input type="text" id="email" placeholder="E-mail address">
+        <input type="password" id="password" placeholder="Password">
+        <div class="submit">
+            <input type="submit" value="Login">
+        </div>
+        <p id="message" style="color:red; margin-top:10px;"></p>
+    </form>
+</div>
+
+<div class="copy_layout login">
+    <p>Copyright &copy; 2024 Nguyễn Thuận IT. All Rights Reserved | Design by 
+    <a href="https://nguyenthuanit.id.vn/" target="_blank">Nguyễn Minh Thuận</a></p>
+</div>
+
+<script>
+// JSON tài khoản gắn trực tiếp
+const users = [
+    { "email": "admin@example.com", "password": "123456" },
+    { "email": "anh@gamil.com", "password": "pass123" },
+    { "email": "test@gmail.com", "password": "test" }
+];
+
+function login(event) {
+    event.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const message = document.getElementById("message");
+
+    const found = users.find(user => 
+        user.email === email && user.password === password
+    );
+
+    if (found) {
+        message.style.color = "green";
+        message.textContent = "✅ Đăng nhập thành công!";
+        setTimeout(() => window.location.href = "grids.html", 1000);
+    } else {
+        message.style.color = "red";
+        message.textContent = "❌ Sai email hoặc mật khẩu";
+    }
+}
+</script>
+
+</body>
+</html>
