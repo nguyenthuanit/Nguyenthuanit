@@ -12,9 +12,17 @@ for /f "tokens=1-2 delims=:." %%a in ("%time%") do (
 
 set msg=Update index.html - %ngay%_%gio%
 
-REM --- Add + Commit + Push ---
+REM --- Add + Commit ---
 git add .
 git commit -m "%msg%"
-git push
+
+REM --- Kiểm tra xem branch đã có upstream chưa ---
+git rev-parse --abbrev-ref --symbolic-full-name @{u} >nul 2>&1
+if %errorlevel% neq 0 (
+    echo No upstream branch, setting upstream to origin/master...
+    git push --set-upstream origin master
+) else (
+    git push
+)
 
 pause
