@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Quản trị thư viện</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <h2>LIBRARY</h2>
+    <a href="#">Tài khoản</a>
+    <a href="#">Sách</a>
+    <a href="#">Độc giả</a>
+    <a href="#">Nhân viên</a>
+    <a href="#">Mượn sách</a>
+    <a href="#">Trả sách</a>
+    <a href="#">Thống kê</a>
+    <a href="#">Quy định</a>
+    <a href="#" class="logout">Đăng xuất</a>
+  </div>
+
+  <!-- Nội dung chính -->
+  <div class="main-content">
+    <!-- nút menu mobile -->
+    <button class="menu-btn" onclick="toggleMenu()">☰ Menu</button>
+
+    <div class="header">
+      <h1>Quản trị viên</h1>
+    </div>
+    <div class="profile">
+      <img src="https://via.placeholder.com/100" alt="avatar">
+      <h2>Quản trị viên</h2>
+      <div class="info">
+        <p><strong>Tên người dùng:</strong> admin</p>
+        <p><strong>Chức vụ:</strong> Giám đốc</p>
+        <p><strong>Bộ phận:</strong> Ban giám đốc</p>
+        <p><strong>Bằng cấp:</strong> Tiến sĩ</p>
+        <p><strong>Tên đăng nhập:</strong> admin</p>
+        <button onclick="doiMatKhau()">Đổi mật khẩu</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
