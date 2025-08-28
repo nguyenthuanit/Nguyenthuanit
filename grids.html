@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách khách hàng</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        h3 {
+            margin-bottom: 20px;
+        }
+        th {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <section id="customer-section">
+        <h3>📋 Danh sách khách hàng</h3>
+        <input type="text" id="searchInput" class="form-control"
+               placeholder="🔍 Nhập ID, tên, email, số ĐT hoặc địa chỉ...">
+
+        <div class="table-responsive" style="margin-top: 15px;">
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th data-column="id">ID ⬍</th>
+                    <th data-column="name">Tên khách hàng ⬍</th>
+                    <th data-column="email">Email ⬍</th>
+                    <th data-column="phone">Số điện thoại ⬍</th>
+                    <th data-column="address">Địa chỉ ⬍</th>
+                    <th>Hành động</th>
+                </tr>
+                </thead>
+                <tbody id="customerTable">
+                <!-- Dữ liệu render bằng JS -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <div id="no-data" style="display:none; text-align:center; margin-top: 20px;">
+        <p>⚠️ Không có dữ liệu khách hàng để hiển thị.</p>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+    <script>
+        let customers = [];
+        let sortDirection = {};
+        const tableBody = document.getElementById("customerTable");
+        const searchInput = document.getElementById("searchInput");
+        const headers = document.querySelectorAll("th[data-column]");
+
+        function renderTable(data) {
+            tableBody.innerHTML = data.map((c, index) => `
+                <tr>
+                    <td>${c.id}</td>
+                    <td>${c.name}</td>
+                    <td>${c.email}</td>
+                    <td>${c.phone}</td>
+                    <td>${c.address}</td>
+                    <td>
+                        <button class="btn btn-sm btn-warning" onclick="editCustomer(${index})"><i class="fa fa-pencil"></i></button>
+                        <button class="btn btn-sm btn-danger" onclick="deleteCustomer(${index})"><i class="fa fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function sortTable(column) {
+            sortDirection[column] = !sortDirection[column];
+            customers.sort((a, b) => {
+                let valA = a[column].toString().toLowerCase();
+                let valB = b[column].toString().toLowerCase();
+                return sortDirection[column] ? valA.localeCompare(valB) : valB.localeCompare(valA);
+            });
+            renderTable(customers);
+        }
+
+        function searchTable() {
+            let term = searchInput.value.toLowerCase();
+            let filtered = customers.filter(c =>
+                c.id.toLowerCase().includes(term) ||
+                c.name.toLowerCase().includes(term) ||
+                c.email.toLowerCase().includes(term) ||
+                c.phone.includes(term) ||
+                c.address.toLowerCase().includes(term)
+            );
+            renderTable(filtered);
+        }
+
+        function deleteCustomer(index) {
+            if (confirm("Bạn có chắc muốn xóa khách hàng này?")) {
+                customers.splice(index, 1);
+                renderTable(customers);
+            }
+        }
+
+        function editCustomer(index) {
+            let c = customers[index];
+            let row = tableBody.rows[index];
+            row.innerHTML = `
+                <td><input type="text" value="${c.id}" class="form-control" id="edit-id-${index}"></td>
+                <td><input type="text" value="${c.name}" class="form-control" id="edit-name-${index}"></td>
+                <td><input type="email" value="${c.email}" class="form-control" id="edit-email-${index}"></td>
+                <td><input type="text" value="${c.phone}" class="form-control" id="edit-phone-${index}"></td>
+                <td><input type="text" value="${c.address}" class="form-control" id="edit-address-${index}"></td>
+                <td>
+                    <button class="btn btn-sm btn-success" onclick="saveCustomer(${index})"><i class="fa fa-save"></i></button>
+                    <button class="btn btn-sm btn-secondary" onclick="renderTable(customers)"><i class="fa fa-times"></i></button>
+                </td>
+            `;
+        }
+
+        function saveCustomer(index) {
+            customers[index] = {
+                id: document.getElementById(`edit-id-${index}`).value,
+                name: document.getElementById(`edit-name-${index}`).value,
+                email: document.getElementById(`edit-email-${index}`).value,
+                phone: document.getElementById(`edit-phone-${index}`).value,
+                address: document.getElementById(`edit-address-${index}`).value
+            };
+            renderTable(customers);
+        }
+
+        // Gắn sự kiện
+        headers.forEach(h => h.addEventListener("click", () => sortTable(h.dataset.column)));
+        searchInput.addEventListener("input", searchTable);
+
+        // Load dữ liệu từ JSON
+        fetch("customers.json")
+            .then(res => res.json())
+            .then(data => {
+                customers = data;
+                if (customers.length === 0) {
+                    document.getElementById("customer-section").style.display = "none";
+                    document.getElementById("no-data").style.display = "block";
+                } else {
+                    renderTable(customers);
+                }
+            })
+            .catch(err => {
+                console.error("Lỗi tải dữ liệu:", err);
+                document.getElementById("customer-section").style.display = "none";
+                document.getElementById("no-data").style.display = "block";
+            });
+    </script>
+
+</body>
+</html>
