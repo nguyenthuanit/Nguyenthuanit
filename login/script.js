@@ -12,8 +12,14 @@ function showToast(text, type = 'error', ms = 2200) {
   t._h = setTimeout(() => { t.className = 'toast'; }, ms);
 }
 
+// danh sách tài khoản (nhúng trực tiếp)
+const accounts = [
+  { username: "admin", password: "123", redirect: "admin.html" },
+  { username: "user", password: "123", redirect: "index.html" }
+];
+
 // đăng nhập
-async function login() {
+function login() {
   const user = document.getElementById("username").value.trim();
   const pass = document.getElementById("password").value.trim();
 
@@ -22,31 +28,41 @@ async function login() {
     return;
   }
 
-  try {
-    const res = await fetch("login/taikhoan.json");
-    const text = await res.text();
-    const lines = text.trim().split("\n");
+  let success = false;
+  let redirectUrl = null;
 
-    let success = false;
-    let redirectUrl = null;
-    for (let line of lines) {
-      if (!line.trim()) continue;
-      const acc = JSON.parse(line);
-      if (acc.username === user && acc.password === pass) {
-        success = true;
-        redirectUrl = acc.redirect || "index.html";
-        break;
-      }
+  for (let acc of accounts) {
+    if (acc.username === user && acc.password === pass) {
+      success = true;
+      redirectUrl = acc.redirect || "index.html";
+      break;
     }
+  }
 
-    if (success) {
-      showToast("Đăng nhập thành công!", "success", 1200);
-      setTimeout(() => { window.location.href = redirectUrl; }, 1000);
-    } else {
-      showToast("Sai tài khoản hoặc mật khẩu!", "error");
-    }
-  } catch (err) {
-    console.error(err);
-    showToast("Lỗi tải dữ liệu!", "error");
+  if (success) {
+    showToast("Đăng nhập thành công!", "success", 1200);
+    // chuyển hướng sau khi hiển thị toast
+    setTimeout(() => {
+      window.location.href = redirectUrl;
+    }, 1300);
+  } else {
+    showToast("Sai tài khoản hoặc mật khẩu!", "error");
   }
 }
+
+// ấn Enter trong input cũng login
+document.getElementById("password").addEventListener("keypress", function (e) {
+  if (e.key === "Enter") {
+    login();
+  }
+});
+document.getElementById("username").addEventListener("keypress", function (e) {
+  if (e.key === "Enter") {
+    login();
+  }
+});
+
+// khi load trang, tự focus vào ô username
+window.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("username").focus();
+});

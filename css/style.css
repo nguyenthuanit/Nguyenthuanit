@@ -32,8 +32,8 @@ body a{
   background-color:rgba(239, 85, 58, 0) !important;
 }
 .navbar .navbar-nav li a i {
-  border: 1px solid #fff;
-  padding: 8px 0;
+  border: 2px solid #fff;
+  padding: 6px 0;
   width: 32px;
   text-align: center;
   -webkit-border-radius: 50em;
@@ -247,7 +247,7 @@ i.nav_icon {
 }
 .form-control {
   background: none !important;
-  border: 1px solid #fff !important;
+  border: 2px solid #fff !important;
   border-radius: 20px !important;
   box-shadow: none !important;
 }
@@ -906,8 +906,8 @@ i.dollar1{
   border-color:rgb(3, 197, 135);
 }
 .btn-success:hover{
-  border-color:#E74225 !important;
-  background:#E74225 !important;
+  border-color:#0066CC !important;
+  background:#0066CC !important;
 }
 .control2{
   height:200px;
@@ -1080,7 +1080,7 @@ button.note-color-btn {
 .btn-primary:hover{
   background-color: #fff !important;
   border-color: #fff !important;
-  color:rgb(6, 217, 149) !important;
+  color:#0099FF !important;
 }
 h2.modal-title {
   font-size: 1.3em;
@@ -1480,14 +1480,14 @@ div.checker input {
   border-bottom: 1px solid #ddd !important;
 }
 .badge-success, .bg-green, .bootstrap-switch-success, .btn-success {
-  border-color: #ef553a;
-  background: #ef553a;
+  border-color: #0099FF;
+  background: #0099FF;
   padding:8.5px 12px;
 }
 .btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.active, .open .dropdown-toggle.btn-success {
   color: #fff;
-  background-color:rgb(6, 217, 149);
-  border-color:rgb(6, 217, 149);
+  background-color:#3de03d;
+  border-color:#3de03d;
 }
 .btn-toolbar {
   margin-left: 0 !important;
