@@ -23,7 +23,7 @@ async function login() {
   }
 
   try {
-    const res = await fetch("taikhoan.json");
+    const res = await fetch("login/taikhoan.json");
     const text = await res.text();
     const lines = text.trim().split("\n");
 
